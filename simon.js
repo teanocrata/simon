@@ -40,17 +40,21 @@ const nextRound = (level) => {
   let i = 0
   let key = keys[i]
   const onkeydown = (ev) => {
-    if (ev.keyCode === key) {
+    ev.preventDefault()
+    const keyCode = ev.keyCode || parseInt(ev.target.getAttribute('data-key'), 10)
+    if (keyCode === key) {
       activate(key, { success: true })
       i += 1
       if (i > level) {
         window.removeEventListener('keydown', onkeydown)
+        removeOnTouchEventListenersToKeyboard(onkeydown)
         setTimeout(() => nextRound(i), 1500)
       }
       key = keys[i]
     } else {
-      activate(ev.keyCode, { fail: true })
+      activate(keyCode, { fail: true })
       window.removeEventListener('keydown', onkeydown)
+      removeOnTouchEventListenersToKeyboard(onkeydown)
       swal({
         title: 'You lost! :(',
         text: 'Do you want to play again?',
@@ -80,7 +84,11 @@ const nextRound = (level) => {
     }
   }
 
-  return window.addEventListener('keydown', onkeydown)
+  window.addEventListener('keydown', onkeydown)
+  addOnTouchEventListenersToKeyboard(onkeydown)
 }
+
+const addOnTouchEventListenersToKeyboard = callback => Array.prototype.forEach.call(document.getElementsByClassName('key'), key => key.addEventListener('touchstart', callback))
+const removeOnTouchEventListenersToKeyboard = callback => Array.prototype.forEach.call(document.getElementsByClassName('key'), key => key.removeEventListener('touchstart', callback))
 
 nextRound(0)

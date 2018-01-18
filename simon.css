@@ -17,14 +17,10 @@ body {
   margin-bottom: 22px;
 }
 
-.row.last {
-  margin-left: -110px;
-}
 
 .key {
   animation: appear 2.5s;
-  min-width: 80px;
-  padding: 36px 10px;
+  padding: 36px 36px;
   border: 4px solid white;
   border-radius: 10px;
   margin: 0 11px;
@@ -59,5 +55,40 @@ body {
   100% {
     color: white;
     border-color: white;
+  }
+}
+
+@media (max-width: 1440px) {
+  .key {
+    padding: 26px 26px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .key {
+    padding: 20px 20px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .key {
+    padding: 20px 20px;
+  }
+}
+
+@media (max-width: 769px) {
+  .key {
+    padding: 12px 12px;
+  }
+}
+
+@media only screen and (orientation:portrait) and (max-width: 769px){
+  html {
+    display:block;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
   }
 }

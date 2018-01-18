@@ -1,10 +1,10 @@
-const levels = 15
+const levels = 3
 
 const generateKey = () => Math.round(Math.random() * (90 - 65) + 65)
 
 const generateKeys = levels => new Array(levels).fill(0).map(generateKey)
 
-const keys = generateKeys(levels)
+let keys = generateKeys(levels)
 
 const getElementByKeyCode = keyCode => document.querySelector(`[data-key="${keyCode}"]`)
 
@@ -27,12 +27,14 @@ const activate = (keyCode, opts = {}) => {
 
 const nextRound = (level) => {
   if (level === levels) {
-    return alert('You won!!!')
+    return swal({ title: 'You won!!!', icon: 'success' })
   }
-  alert(`Level: ${level + 1}`)
+  swal({
+    title: `Level: ${level + 1}`, timer: 1000, buttons: false, icon: 'info'
+  })
 
   for (let i = 0; i <= level; i += 1) {
-    setTimeout(() => activate(keys[i]), 1000 * (i + 1))
+    setTimeout(() => activate(keys[i]), 1000 * (i + 1) + 1000)
   }
 
   let i = 0
@@ -49,11 +51,36 @@ const nextRound = (level) => {
     } else {
       activate(ev.keyCode, { fail: true })
       window.removeEventListener('keydown', onkeydown)
-      alert('You lost! :(')
+      swal({
+        title: 'You lost! :(',
+        text: 'Do you want to play again?',
+        icon: 'error',
+        buttons: {
+          cancel: {
+            text: 'Cancel',
+            value: null,
+            visible: true,
+            className: '',
+            closeModal: true
+          },
+          confirm: {
+            text: 'OK',
+            value: true,
+            visible: true,
+            className: '',
+            closeModal: true
+          }
+        }
+      }).then((ok) => {
+        if (ok) {
+          keys = generateKeys(levels)
+          nextRound(0)
+        }
+      })
     }
   }
 
-  window.addEventListener('keydown', onkeydown)
+  return window.addEventListener('keydown', onkeydown)
 }
 
 nextRound(0)

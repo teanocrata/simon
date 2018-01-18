@@ -3,7 +3,5 @@
   "rules": {
     "semi": ["error", "never"]
   },
-  "env": {
-    "mocha": true
-    }
+  "globals": { "swal": true }
 }

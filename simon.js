@@ -1,4 +1,4 @@
-const levels = 3
+const levels = 15
 
 const generateKey = () => Math.round(Math.random() * (90 - 65) + 65)
 
